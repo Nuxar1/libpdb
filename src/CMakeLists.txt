@@ -48,4 +48,6 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libpdb-config.cmake"
         
 add_executable(pdbparse pdbparse.c)
 target_link_libraries(pdbparse PRIVATE libpdb)
-target_include_directories(pdbparse PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(pdbparse PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
