@@ -13,9 +13,9 @@ endif()
 
 # Microsoft's cvinfo.h header requires c11 for anonymous struct/union
 target_compile_features(libpdb PUBLIC c_std_11)
-target_include_directories(libpdb PUBLIC 
- $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
- $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_include_directories(libpdb PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 install (
     TARGETS libpdb
