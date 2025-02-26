@@ -173,7 +173,7 @@ static void cleanup_pdb_context(struct pdb_context *ctx)
 static size_t nr_blocks(size_t count, size_t block_size)
 {
     PDB_ASSERT(block_size != 0);
-    if (count == 0) {
+    if (count == 0 || count == (uint32_t)-1) {
         return 0;
     }
     return 1 + ((count - 1) / block_size);
@@ -504,7 +504,9 @@ static size_t nr_bits_set(const unsigned char *bitvector, size_t bitvector_size)
     static uint8_t table[256] = {0};
 
     if (!table_computed) {
-        for (uint8_t i = 0; i < UINT8_MAX; i++) {
+        for (uint16_t i = 0; i <= UINT8_MAX; i++) {
+            if (i == 255) 
+                __asm("nop");
             uint8_t val = 0;
             uint8_t c = i;
             for (int j = 0; j < 8 && c != 0; j++) {
