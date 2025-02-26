@@ -1,6 +1,6 @@
 # Create an object library so we only have to build pdb.c once when producing
 # both static and shared library configurations.
-add_library(libpdb OBJECT pdb.c)
+add_library(libpdb pdb.c)
 target_compile_options(libpdb PRIVATE ${PDB_STRICT_COMPILE_OPTIONS})
 set_target_properties(libpdb
   PROPERTIES
@@ -33,5 +33,14 @@ install (
     EXPORT libpdb-targets
     FILE libpdb-config.cmake
     NAMESPACE libpdb::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/libpdb
+    DESTINATION share/libpdb)
+
+# Generate the config file in the current binary dir (this ensures it's not placed directly in source)
+file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/libpdb-config.cmake"
+"include(CMakeFindDependencyMacro)\n"
+"include(\"\${CMAKE_CURRENT_LIST_DIR}/libpdb-targets.cmake\")\n"
 )
+
+# Install the generated config file
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libpdb-config.cmake"
+		DESTINATION share/libpdb)
