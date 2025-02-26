@@ -35,19 +35,11 @@ install (
     NAMESPACE libpdb::
     DESTINATION share/libpdb)
 
-# Generate the config file in the current binary dir (this ensures it's not placed directly in source)
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/libpdb-config.cmake"
-"include(CMakeFindDependencyMacro)\n"
-"include(\"\${CMAKE_CURRENT_LIST_DIR}/libpdb-targets.cmake\")\n"
-)
+# copy config.h.in to config.h and install it
+configure_file(config.h.in config.h)
 
-# Install the generated config file
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libpdb-config.cmake"
-		DESTINATION share/libpdb)
-
-        
+# Create a pdbparse executable that links against libpdb
+     
 add_executable(pdbparse pdbparse.c)
 target_link_libraries(pdbparse PRIVATE libpdb)
-target_include_directories(pdbparse PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_include_directories(pdbparse PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
