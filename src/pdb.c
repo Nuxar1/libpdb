@@ -57,7 +57,7 @@ extern __INLINE char *NextType(const char *pType);
 #define PDB_ASSERT_CTX_NOT_NULL(ctx, retval) \
     do {                                     \
         if ((ctx) == NULL) {                 \
-            return (retval);                 \
+            return retval;                   \
         }                                    \
     } while (0)
 
@@ -65,7 +65,7 @@ extern __INLINE char *NextType(const char *pType);
     do {                                       \
         if (!(ctx)->pdb_loaded) {              \
             (ctx)->error = EPDB_NO_PDB_LOADED; \
-            return (retval);                   \
+            return retval;                     \
         }                                      \
     } while (0)
 
@@ -73,7 +73,7 @@ extern __INLINE char *NextType(const char *pType);
     do {                                           \
         if (!(expr)) {                             \
             (ctx)->error = EPDB_INVALID_PARAMETER; \
-            return (retval);                       \
+            return retval;                         \
         }                                          \
     } while (0)
 
