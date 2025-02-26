@@ -44,3 +44,8 @@ file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/libpdb-config.cmake"
 # Install the generated config file
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libpdb-config.cmake"
 		DESTINATION share/libpdb)
+
+        
+add_executable(pdbparse pdbparse.c)
+target_link_libraries(pdbparse PRIVATE libpdb)
+target_include_directories(pdbparse PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
