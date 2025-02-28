@@ -11,11 +11,16 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#include <io.h>
+#else
 #include <strings.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#endif
 
 #include <signal.h>
 #include <stdio.h>
@@ -505,8 +510,6 @@ static size_t nr_bits_set(const unsigned char *bitvector, size_t bitvector_size)
 
     if (!table_computed) {
         for (uint16_t i = 0; i <= UINT8_MAX; i++) {
-            if (i == 255) 
-                __asm("nop");
             uint8_t val = 0;
             uint8_t c = i;
             for (int j = 0; j < 8 && c != 0; j++) {

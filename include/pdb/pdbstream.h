@@ -16,11 +16,11 @@ enum pdb_stream_version {
     PSV_VC140 = 20140508,
 };
 
-struct pdb_stream_header {
+PACK(struct pdb_stream_header {
     uint32_t version;
     uint32_t signature;
     uint32_t age;
     unsigned char unique_id[16];
-} __attribute__((packed));
+});
 
 #endif  // PDB_PDBSTREAM_H

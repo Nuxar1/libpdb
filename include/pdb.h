@@ -9,7 +9,11 @@
 
 #pragma pack(push, 1)
 
+#ifdef _WIN32
+#define PDB_EXPORT __declspec(dllexport)
+#else
 #define PDB_EXPORT __attribute__((visibility("default")))
+#endif
 
 #define PDB_SIGNATURE_SZ (32)
 

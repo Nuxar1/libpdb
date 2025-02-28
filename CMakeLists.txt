@@ -7,7 +7,7 @@ project(libpdb
 set(PDB_ENABLE_ASSERTIONS TRUE CACHE BOOL "Enable assertions in libpdb")
 
 include(GNUInstallDirs)
-set(PDB_STRICT_COMPILE_OPTIONS -Wall -Wextra -pedantic)
+set(PDB_STRICT_COMPILE_OPTIONS -Wall -pedantic)
 
 add_subdirectory(docs)
 add_subdirectory(src)

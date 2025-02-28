@@ -3,6 +3,12 @@
 
 #include <stdint.h>
 
+#ifdef _WIN32
+#define PACK(__Declaration__) __pragma(pack(push, 1)) __Declaration__ __pragma(pack(pop))
+#else
+#define PACK(__Declaration__) __Declaration__ __attribute__((packed))
+#endif
+
 enum dbi_stream_version {
     DSV_VC41 = 930803,
     DSV_V50 = 19960307,
@@ -18,8 +24,7 @@ struct dbi_build_number {
     uint16_t new_version_format : 1;
 }
 */
-
-struct dbi_stream_header {
+PACK(struct dbi_stream_header {
     int32_t version_signature;
     uint32_t version_header;
     uint32_t age;
@@ -40,7 +45,7 @@ struct dbi_stream_header {
     uint16_t flags;
     uint16_t machine;
     uint32_t padding;
-} __attribute__((packed));
+});
 
 enum section_map_entry_flags {
     SMEF_READ = 1,
@@ -52,7 +57,7 @@ enum section_map_entry_flags {
     SMEF_IS_GROUP = 0x400,
 };
 
-struct section_map_entry {
+PACK(struct section_map_entry {
     uint16_t flags;
     uint16_t ovl;
     uint16_t group;
@@ -61,19 +66,19 @@ struct section_map_entry {
     uint16_t class_name;
     uint32_t offset;
     uint32_t section_length;
-} __attribute__((packed));
+});
 
-struct section_map_header {
+PACK(struct section_map_header {
     uint16_t count;
     uint16_t log_count;
     const struct section_map_entry entries[];
-} __attribute__((packed));
+});
 
 #define DBI_NUM_DEBUG_HEADER_STREAMS 11
 
-struct debug_header {
+PACK(struct debug_header {
     union {
-        struct {
+        PACK(struct {
             uint16_t fpo_data_stream_index;
             uint16_t exception_data_stream_index;
             uint16_t fixup_data_stream_index;
@@ -85,9 +90,9 @@ struct debug_header {
             uint16_t pdata_stream_index;
             uint16_t new_fpo_data_stream_index;
             uint16_t original_section_header_data_stream_index;
-        } __attribute__((packed));
+        });
         uint16_t streams[DBI_NUM_DEBUG_HEADER_STREAMS];
     };
-} __attribute__((packed));
+});
 
 #endif  // PDB_DBISTREAM_H
